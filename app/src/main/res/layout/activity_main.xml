@@ -16,47 +16,16 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/player1Color"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:background="#80000000"
-                    android:textColor="@android:color/white"
-                    android:clickable="false"
-                    android:layout_weight="1">
-
-                </Button>
-
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:background="#80000000"
-                    android:textColor="@android:color/white"
-                    android:clickable="false"
-                    android:layout_weight="3">
-
-                </Button>
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_marginBottom="50dp"
                 android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_marginBottom="50dp">
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/player1name"
@@ -64,21 +33,21 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:background="#80000000"
-                    android:textColor="@android:color/white"
                     android:clickable="false"
-                    android:text="Player 1">
+                    android:text="Player 1"
+                    android:textColor="@android:color/white">
 
                 </Button>
 
                 <Button
+                    android:id="@+id/player1time"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:id="@+id/player1time"
-                    android:text="00:00"
+                    android:layout_weight="1"
                     android:background="#80000000"
                     android:clickable="false"
-                    android:textColor="@android:color/white"
-                    android:layout_weight="1">
+                    android:text="00:00"
+                    android:textColor="@android:color/white">
 
                 </Button>
 
@@ -89,8 +58,44 @@
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="50dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/player2time"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#80000000"
+                    android:clickable="false"
+                    android:text="00:00"
+                    android:textColor="@android:color/white">
+
+                </Button>
+
+                <Button
+
+                    android:id="@+id/player2name"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="#80000000"
+                    android:clickable="false"
+                    android:text="Player 2"
+                    android:textColor="@android:color/white">
+
+                </Button>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
@@ -128,7 +133,9 @@
                     android:layout_weight="1"
                     android:id="@+id/A1"
                     android:background="@color/white">
+
                 </Button>
+
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -513,13 +520,18 @@
                     android:id="@+id/A7"
                     android:background="@color/white">
                 </Button>
+
                 <Button
+                    android:id="@+id/B7"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:id="@+id/B7"
+                    android:foreground="@drawable/b_bishop"
                     android:background="@color/grey">
+
+
                 </Button>
+
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
