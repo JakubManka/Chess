@@ -2,9 +2,9 @@ package com.example.chessgame;
 
 public class Pawn extends Figure {
 
-    Pawn(String color, String name){
-        super(color, name);
+    Pawn(String color){
+        super(color);
         this.name="pawn";
-
     }
+
 }

@@ -5,9 +5,8 @@ public abstract class Figure {
     String name;
     String color;
 
-    Figure(String color, String name){
+    Figure(String color){
         this.color=color;
-        this.name=name;
     }
 
 

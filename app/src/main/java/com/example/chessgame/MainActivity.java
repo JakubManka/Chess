@@ -127,10 +127,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
     void setForeground(){
-        for (Map.Entry<Button, Coordinate> buttoncoordinateEntry : buttons.entrySet()) {
-            final Figure figure = controller.getFigures().get(buttoncoordinateEntry.getValue());
-//            buttoncoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
-            if(figure.getName().equals("Pawn")) buttoncoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
+        for (Map.Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {
+            final Figure figure = controller.getFigures().get(buttonCoordinateEntry.getValue());
+//            buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
+            if (figure != null && figure.getColor().equals("Black")){
+//                if(figure.getName().equals("pawn")) buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
+                switch (figure.getName()) {
+                    case "pawn":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
+                        break;
+
+                    case "knight":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_knight));
+                        break;
+
+                }
+
+            }
 
         }
 
