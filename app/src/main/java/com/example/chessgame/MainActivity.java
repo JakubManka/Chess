@@ -126,11 +126,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    void setForeground(){
+    void setForeground() {
         for (Map.Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {
             final Figure figure = controller.getFigures().get(buttonCoordinateEntry.getValue());
 //            buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
-            if (figure != null && figure.getColor().equals("Black")){
+            if (figure != null && figure.getColor().equals("Black")) {
 //                if(figure.getName().equals("pawn")) buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
                 switch (figure.getName()) {
                     case "pawn":
@@ -140,14 +140,52 @@ public class MainActivity extends AppCompatActivity {
                     case "knight":
                         buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_knight));
                         break;
+                    case "bishop":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_bishop));
+                        break;
 
+                    case "rook":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_rook));
+                        break;
+
+                    case "king":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_king));
+                        break;
+
+                    case "queen":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_queen));
+                        break;
                 }
 
+            } else if (figure != null && figure.getColor().equals("White")) {
+                switch (figure.getName()) {
+                    case "pawn":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_pawn));
+                        break;
+
+                    case "knight":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_knight));
+                        break;
+                    case "bishop":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_bishop));
+                        break;
+
+                    case "rook":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_rook));
+                        break;
+
+                    case "king":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_king));
+                        break;
+
+                    case "queen":
+                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_queen));
+                        break;
+                }
             }
 
+
         }
-
-
     }
 
 
