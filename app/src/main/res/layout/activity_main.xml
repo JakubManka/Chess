@@ -526,7 +526,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:foreground="@drawable/b_bishop"
                     android:background="@color/grey">
 
 

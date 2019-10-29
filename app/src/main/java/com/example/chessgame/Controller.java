@@ -1,19 +1,18 @@
 package com.example.chessgame;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Controller {
     private MainActivity mainActivity;
-    private Model model;
+    private Board board = new Board();
 
 
     Controller(MainActivity mainActivity){
         this.mainActivity=mainActivity;
     }
 
-    public Map getFigures()
+    public Map<Coordinate, Figure> getFigures()
     {
-        return model.getFigures();
+        return board.getFigures();
     }
 
 
