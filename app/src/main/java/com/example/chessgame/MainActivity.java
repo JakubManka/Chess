@@ -9,16 +9,20 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
 
 
-//    ArrayList<HashMap<View, figure>> listOfButtons = new ArrayList<>();
+
     Map<Button, Coordinate> buttons = new HashMap<>();
+    Button player1Time;
+    Button player2Time;
+    Button player1Name;
+    Button player2Name;
 
     Controller controller = new Controller(this);
-
 
 
 
@@ -34,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         initializeView();
         setForeground();
+        update();
 
 
 
@@ -118,20 +123,30 @@ public class MainActivity extends AppCompatActivity {
         buttons.put ((Button) findViewById(R.id.H7),(new Coordinate(8,7)));
         buttons.put ((Button) findViewById(R.id.H8),(new Coordinate(8,8)));
 
-        //time, palyer names, bots
+        player1Time = findViewById(R.id.player1time);
+        player2Time = findViewById(R.id.player2time);
+        player1Name = findViewById(R.id.player1name);
+        player2Name = findViewById(R.id.player2name);
+
+//        Set<Button> keySet = buttons.keySet();
+
+        for(Button button : buttons.keySet()){
+            button.setClickable(false);
+        }
+
+        //time, palyer names, bots, undo
     }
 
     void update(){
 
-
+    controller.whatFigureCanMove(controller.getFigures());
 
     }
+
     void setForeground() {
         for (Map.Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {
             final Figure figure = controller.getFigures().get(buttonCoordinateEntry.getValue());
-//            buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
             if (figure != null && figure.getColor().equals("Black")) {
-//                if(figure.getName().equals("pawn")) buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
                 switch (figure.getName()) {
                     case "pawn":
                         buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));

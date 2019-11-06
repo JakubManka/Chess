@@ -3,6 +3,7 @@ package com.example.chessgame;
 import java.util.Objects;
 
 public class Coordinate {
+    //x - A-H, y - 1-8
     int x;
     int y;
 

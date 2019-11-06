@@ -1,5 +1,7 @@
 package com.example.chessgame;
 
+import java.util.Map;
+
 public abstract class Figure {
 
     String name;
@@ -11,6 +13,10 @@ public abstract class Figure {
 
 
     void whereCanIMove(){}
+
+    boolean CanIMove(Map<Coordinate, Figure> map, String color, Coordinate coordinate){
+        return true;
+    }
 
 
     public String getName() {
