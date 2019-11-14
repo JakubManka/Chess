@@ -1,19 +1,21 @@
 package com.example.chessgame;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.chessgame.figures.Figure;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
+import java.util.Optional;
+
+import static com.example.chessgame.Constants.COORDINATES;
 
 public class MainActivity extends AppCompatActivity {
-
-
 
 
     Map<Button, Coordinate> buttons = new HashMap<>();
@@ -23,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     Button player2Name;
 
     Controller controller = new Controller(this);
-
 
 
     @Override
@@ -41,168 +42,65 @@ public class MainActivity extends AppCompatActivity {
         update();
 
 
-
     }
 
 //    View.OnClickListenerener(){
 
 
-
-    void initializeView(){
+    void initializeView() {
         // x = [A-H] [1-8]
         // y = [1-8] [1-8]
-        buttons.put ((Button) findViewById(R.id.A1),(new Coordinate(1,1)));
-        buttons.put ((Button) findViewById(R.id.A2),(new Coordinate(1,2)));
-        buttons.put ((Button) findViewById(R.id.A3),(new Coordinate(1,3)));
-        buttons.put ((Button) findViewById(R.id.A4),(new Coordinate(1,4)));
-        buttons.put ((Button) findViewById(R.id.A5),(new Coordinate(1,5)));
-        buttons.put ((Button) findViewById(R.id.A6),(new Coordinate(1,6)));
-        buttons.put ((Button) findViewById(R.id.A7),(new Coordinate(1,7)));
-        buttons.put ((Button) findViewById(R.id.A8),(new Coordinate(1,8)));
 
-        buttons.put ((Button) findViewById(R.id.B1),(new Coordinate(2,1)));
-        buttons.put ((Button) findViewById(R.id.B2),(new Coordinate(2,2)));
-        buttons.put ((Button) findViewById(R.id.B3),(new Coordinate(2,3)));
-        buttons.put ((Button) findViewById(R.id.B4),(new Coordinate(2,4)));
-        buttons.put ((Button) findViewById(R.id.B5),(new Coordinate(2,5)));
-        buttons.put ((Button) findViewById(R.id.B6),(new Coordinate(2,6)));
-        buttons.put ((Button) findViewById(R.id.B7),(new Coordinate(2,7)));
-        buttons.put ((Button) findViewById(R.id.B8),(new Coordinate(2,8)));
-
-        buttons.put ((Button) findViewById(R.id.C1),(new Coordinate(3,1)));
-        buttons.put ((Button) findViewById(R.id.C2),(new Coordinate(3,2)));
-        buttons.put ((Button) findViewById(R.id.C3),(new Coordinate(3,3)));
-        buttons.put ((Button) findViewById(R.id.C4),(new Coordinate(3,4)));
-        buttons.put ((Button) findViewById(R.id.C5),(new Coordinate(3,5)));
-        buttons.put ((Button) findViewById(R.id.C6),(new Coordinate(3,6)));
-        buttons.put ((Button) findViewById(R.id.C7),(new Coordinate(3,7)));
-        buttons.put ((Button) findViewById(R.id.C8),(new Coordinate(3,8)));
-
-        buttons.put ((Button) findViewById(R.id.D1),(new Coordinate(4,1)));
-        buttons.put ((Button) findViewById(R.id.D2),(new Coordinate(4,2)));
-        buttons.put ((Button) findViewById(R.id.D3),(new Coordinate(4,3)));
-        buttons.put ((Button) findViewById(R.id.D4),(new Coordinate(4,4)));
-        buttons.put ((Button) findViewById(R.id.D5),(new Coordinate(4,5)));
-        buttons.put ((Button) findViewById(R.id.D6),(new Coordinate(4,6)));
-        buttons.put ((Button) findViewById(R.id.D7),(new Coordinate(4,7)));
-        buttons.put ((Button) findViewById(R.id.D8),(new Coordinate(4,8)));
-
-        buttons.put ((Button) findViewById(R.id.E1),(new Coordinate(5,1)));
-        buttons.put ((Button) findViewById(R.id.E2),(new Coordinate(5,2)));
-        buttons.put ((Button) findViewById(R.id.E3),(new Coordinate(5,3)));
-        buttons.put ((Button) findViewById(R.id.E4),(new Coordinate(5,4)));
-        buttons.put ((Button) findViewById(R.id.E5),(new Coordinate(5,5)));
-        buttons.put ((Button) findViewById(R.id.E6),(new Coordinate(5,6)));
-        buttons.put ((Button) findViewById(R.id.E7),(new Coordinate(5,7)));
-        buttons.put ((Button) findViewById(R.id.E8),(new Coordinate(5,8)));
-
-        buttons.put ((Button) findViewById(R.id.F1),(new Coordinate(6,1)));
-        buttons.put ((Button) findViewById(R.id.F2),(new Coordinate(6,2)));
-        buttons.put ((Button) findViewById(R.id.F3),(new Coordinate(6,3)));
-        buttons.put ((Button) findViewById(R.id.F4),(new Coordinate(6,4)));
-        buttons.put ((Button) findViewById(R.id.F5),(new Coordinate(6,5)));
-        buttons.put ((Button) findViewById(R.id.F6),(new Coordinate(6,6)));
-        buttons.put ((Button) findViewById(R.id.F7),(new Coordinate(6,7)));
-        buttons.put ((Button) findViewById(R.id.F8),(new Coordinate(6,8)));
-
-        buttons.put ((Button) findViewById(R.id.G1),(new Coordinate(7,1)));
-        buttons.put ((Button) findViewById(R.id.G2),(new Coordinate(7,2)));
-        buttons.put ((Button) findViewById(R.id.G3),(new Coordinate(7,3)));
-        buttons.put ((Button) findViewById(R.id.G4),(new Coordinate(7,4)));
-        buttons.put ((Button) findViewById(R.id.G5),(new Coordinate(7,5)));
-        buttons.put ((Button) findViewById(R.id.G6),(new Coordinate(7,6)));
-        buttons.put ((Button) findViewById(R.id.G7),(new Coordinate(7,7)));
-        buttons.put ((Button) findViewById(R.id.G8),(new Coordinate(7,8)));
-
-        buttons.put ((Button) findViewById(R.id.H1),(new Coordinate(8,1)));
-        buttons.put ((Button) findViewById(R.id.H2),(new Coordinate(8,2)));
-        buttons.put ((Button) findViewById(R.id.H3),(new Coordinate(8,3)));
-        buttons.put ((Button) findViewById(R.id.H4),(new Coordinate(8,4)));
-        buttons.put ((Button) findViewById(R.id.H5),(new Coordinate(8,5)));
-        buttons.put ((Button) findViewById(R.id.H6),(new Coordinate(8,6)));
-        buttons.put ((Button) findViewById(R.id.H7),(new Coordinate(8,7)));
-        buttons.put ((Button) findViewById(R.id.H8),(new Coordinate(8,8)));
+        for (int i = 0; i < COORDINATES.length; i++) {
+            for (int j = 0; j < COORDINATES[i].length; j++) {
+                Button button = (Button) findViewById(COORDINATES[i][j]);
+                button.setClickable(false);
+                buttons.put(button, new Coordinate(i + 1, j + 1));
+            }
+        }
 
         player1Time = findViewById(R.id.player1time);
         player2Time = findViewById(R.id.player2time);
         player1Name = findViewById(R.id.player1name);
         player2Name = findViewById(R.id.player2name);
 
-//        Set<Button> keySet = buttons.keySet();
-
-        for(Button button : buttons.keySet()){
-            button.setClickable(false);
-        }
-
+        update();
         //time, palyer names, bots, undo
     }
 
-    void update(){
+    void update() {
+        buttons.keySet().forEach(b->b.setClickable(false));
 
-    controller.whatFigureCanMove(controller.getFigures());
+        controller.whatFigureCanMove(controller.getFigures()).keySet().stream()
+                .map(this::findButton)
+                .forEach(b -> b.setBackgroundColor(getResources().getColor(R.color.black)));
 
+        setForeground();
+    }
+
+    private Button findButton(Coordinate figureCoordinates) {
+//        for (Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {
+//            if (buttonCoordinateEntry.getValue().equals(figureCoordinates))
+//                return buttonCoordinateEntry.getKey();
+//        }
+//      new RuntimeException("Figure on" + figureCoordinates + " without button !")
+
+        return buttons.entrySet().stream()
+                .filter(e -> e.getValue().equals(figureCoordinates))
+                .map(Entry::getKey)
+                .findFirst()
+                .orElseThrow(()->new RuntimeException("Figure on" + figureCoordinates + " without button !"));
     }
 
     void setForeground() {
-        for (Map.Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {
-            final Figure figure = controller.getFigures().get(buttonCoordinateEntry.getValue());
-            if (figure != null && figure.getColor().equals("Black")) {
-                switch (figure.getName()) {
-                    case "pawn":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_pawn));
-                        break;
-
-                    case "knight":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_knight));
-                        break;
-                    case "bishop":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_bishop));
-                        break;
-
-                    case "rook":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_rook));
-                        break;
-
-                    case "king":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_king));
-                        break;
-
-                    case "queen":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.b_queen));
-                        break;
-                }
-
-            } else if (figure != null && figure.getColor().equals("White")) {
-                switch (figure.getName()) {
-                    case "pawn":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_pawn));
-                        break;
-
-                    case "knight":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_knight));
-                        break;
-                    case "bishop":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_bishop));
-                        break;
-
-                    case "rook":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_rook));
-                        break;
-
-                    case "king":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_king));
-                        break;
-
-                    case "queen":
-                        buttonCoordinateEntry.getKey().setForeground(getDrawable(R.drawable.w_queen));
-                        break;
-                }
+        buttons.entrySet().forEach(e -> {
+            final Figure figure = controller.getFigures().get(e.getValue());
+            if (figure != null) {
+                e.getKey().setForeground(getDrawable(figure.getImageID()));
             }
+        });
 
-
-        }
     }
-
 
 
 }
