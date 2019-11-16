@@ -22,17 +22,25 @@ public class Pawn extends Figure {
     @Override
     public List whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate) {
         List<Coordinate> moveList = new ArrayList<>();
-        if(getColor().equals(FigureColor.BLACK))
-        {
-            moveList.add(new Coordinate(coordinate.x - 1, coordinate.y + 1));
-            moveList.add(new Coordinate(coordinate.x - 1, coordinate.y - 1));
-            moveList.add(new Coordinate(coordinate.x - 1, coordinate.y));
+        int move=0;
+        if(getColor().equals(FigureColor.BLACK)) {
+            move = -1;
+        }else if(getColor().equals(FigureColor.WHITE)) move = 1;
+            Coordinate co = new Coordinate(coordinate.x + move, coordinate.y);
 
-        }else {
-            moveList.add(new Coordinate(coordinate.x + 1, coordinate.y + 1));
-            moveList.add(new Coordinate(coordinate.x + 1, coordinate.y - 1));
-            moveList.add(new Coordinate(coordinate.x + 1, coordinate.y));
+            moveList.add(new Coordinate(coordinate.x + move, coordinate.y + 1));
+            moveList.add(new Coordinate(coordinate.x + move, coordinate.y - 1));
+            moveList.stream()
+                    .filter(c->map.get(c)!=null)
+                    .filter(c->!map.get(c).getColor().equals(FigureColor.WHITE));
+
+            if(map.get(co)==null){
+                moveList.add(co);
+            }
+            return moveList;
+
         }
+
 
 
 
@@ -40,4 +48,4 @@ public class Pawn extends Figure {
     }
 
 
-}
+
