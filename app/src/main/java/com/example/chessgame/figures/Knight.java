@@ -19,16 +19,16 @@ public class Knight extends Figure {
     }
 
     @Override
-    public List whereCanIMove(Map<Coordinate, Figure> map, Coordinate knightCoordinate) {
+    public List whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate) {
         List<Coordinate> moveList = new ArrayList<>();
-        moveList.add(new Coordinate(knightCoordinate.x + 2, knightCoordinate.y + 1));
-        moveList.add(new Coordinate(knightCoordinate.x + 2, knightCoordinate.y - 1));
-        moveList.add(new Coordinate(knightCoordinate.x - 2, knightCoordinate.y + 1));
-        moveList.add(new Coordinate(knightCoordinate.x - 2, knightCoordinate.y - 1));
-        moveList.add(new Coordinate(knightCoordinate.x + 1, knightCoordinate.y + 2));
-        moveList.add(new Coordinate(knightCoordinate.x + 1, knightCoordinate.y - 2));
-        moveList.add(new Coordinate(knightCoordinate.x - 1, knightCoordinate.y + 2));
-        moveList.add(new Coordinate(knightCoordinate.x - 1, knightCoordinate.y - 2));
+        moveList.add(new Coordinate(coordinate.x + 2, coordinate.y + 1));
+        moveList.add(new Coordinate(coordinate.x + 2, coordinate.y - 1));
+        moveList.add(new Coordinate(coordinate.x - 2, coordinate.y + 1));
+        moveList.add(new Coordinate(coordinate.x - 2, coordinate.y - 1));
+        moveList.add(new Coordinate(coordinate.x + 1, coordinate.y + 2));
+        moveList.add(new Coordinate(coordinate.x + 1, coordinate.y - 2));
+        moveList.add(new Coordinate(coordinate.x - 1, coordinate.y + 2));
+        moveList.add(new Coordinate(coordinate.x - 1, coordinate.y - 2));
 
         return moveList.stream()
                 .filter(c -> c.getX() > 0 && c.getX() < 9)

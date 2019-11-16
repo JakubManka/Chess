@@ -1,5 +1,6 @@
 package com.example.chessgame.figures;
 
+import com.example.chessgame.Constants;
 import com.example.chessgame.Coordinate;
 import com.example.chessgame.FigureColor;
 import com.example.chessgame.FigureName;
@@ -9,6 +10,7 @@ import com.example.chessgame.figures.Figure;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Pawn extends Figure {
 
@@ -18,22 +20,24 @@ public class Pawn extends Figure {
     }
 
     @Override
-    public List whereCanIMove(Map<Coordinate, Figure> map, Coordinate pawnCoordinate) {
+    public List whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate) {
         List<Coordinate> moveList = new ArrayList<>();
+        if(getColor().equals(FigureColor.BLACK))
+        {
+            moveList.add(new Coordinate(coordinate.x - 1, coordinate.y + 1));
+            moveList.add(new Coordinate(coordinate.x - 1, coordinate.y - 1));
+            moveList.add(new Coordinate(coordinate.x - 1, coordinate.y));
 
-
-
-        for (Coordinate move : moveList) {
-            for (Map.Entry<Coordinate, Figure> coordinateFigureEntry : map.entrySet()) {
-                if (coordinateFigureEntry.getKey() == move) {
-                    Figure figure = coordinateFigureEntry.getValue();
-                    if(figure.getColor().equals(getColor())){
-                        moveList.remove(move);
-                    }
-                }
-            }
+        }else {
+            moveList.add(new Coordinate(coordinate.x + 1, coordinate.y + 1));
+            moveList.add(new Coordinate(coordinate.x + 1, coordinate.y - 1));
+            moveList.add(new Coordinate(coordinate.x + 1, coordinate.y));
         }
-        return moveList;
+
+
+
+
     }
+
 
 }

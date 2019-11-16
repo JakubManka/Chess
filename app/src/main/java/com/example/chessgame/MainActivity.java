@@ -48,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     void initializeView() {
-        // x = [A-H] [1-8]
-        // y = [1-8] [1-8]
+        // i = [A-H] [1-8]
+        // j = [1-8] [1-8]
 
         for (int i = 0; i < COORDINATES.length; i++) {
             for (int j = 0; j < COORDINATES[i].length; j++) {

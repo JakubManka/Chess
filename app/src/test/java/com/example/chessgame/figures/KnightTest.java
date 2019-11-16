@@ -3,7 +3,6 @@ package com.example.chessgame.figures;
 import com.example.chessgame.Coordinate;
 import com.example.chessgame.FigureColor;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class KnightTest {
-    Knight knight = new Knight(FigureColor.BLACK);
+    private Knight knight = new Knight(FigureColor.BLACK);
     private Coordinate coordinates;
     private Map<Coordinate, Figure> map = new HashMap<>();
 
