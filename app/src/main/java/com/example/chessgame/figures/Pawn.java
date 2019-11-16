@@ -32,7 +32,8 @@ public class Pawn extends Figure {
         moveList.add(new Coordinate(coordinate.x + move, coordinate.y - 1));
         moveList.stream()
                 .filter(c -> map.get(c) != null)
-                .filter(c -> !map.get(c).getColor().equals(getColor()));
+                .filter(c -> !map.get(c).getColor().equals(getColor()))
+                .collect(Collectors.toList());
 
         if (map.get(co) == null) {
             moveList.add(co);
