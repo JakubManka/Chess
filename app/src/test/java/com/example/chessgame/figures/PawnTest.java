@@ -30,7 +30,6 @@ public class PawnTest {
         coordinates = new Coordinate(1, 1);
         map.put(new Coordinate(2, 1), new Pawn(FigureColor.BLACK));
         List list = pawn.whereCanIMove(map, coordinates);
-        assertTrue(list.contains(new Coordinate(7, 8)));
         assertTrue("list should be empty", pawn.whereCanIMove(map, coordinates).isEmpty());
     }
 }
