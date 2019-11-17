@@ -25,39 +25,39 @@ public class Board {
         // x = [A-H] [1-8]
         // y = [1-8] [1-8]
         figures.put(new Coordinate(1,1), new Rook(WHITE));
-        figures.put(new Coordinate(2,1), new Knight(WHITE));
-        figures.put(new Coordinate(3,1), new Bishop(WHITE));
-        figures.put(new Coordinate(4,1), new Queen(WHITE));
-        figures.put(new Coordinate(5,1), new King(WHITE));
-        figures.put(new Coordinate(6,1), new Bishop(WHITE));
-        figures.put(new Coordinate(7,1), new Knight(WHITE));
-        figures.put(new Coordinate(8,1), new Rook(WHITE));
+        figures.put(new Coordinate(1,2), new Knight(WHITE));
+        figures.put(new Coordinate(1,3), new Bishop(WHITE));
+        figures.put(new Coordinate(1,4), new Queen(WHITE));
+        figures.put(new Coordinate(1,5), new King(WHITE));
+        figures.put(new Coordinate(1,6), new Bishop(WHITE));
+        figures.put(new Coordinate(1,7), new Knight(WHITE));
+        figures.put(new Coordinate(1,8), new Rook(WHITE));
 
-        figures.put(new Coordinate(1,2), new Pawn(WHITE));
+        figures.put(new Coordinate(2,1), new Pawn(WHITE));
         figures.put(new Coordinate(2,2), new Pawn(WHITE));
-        figures.put(new Coordinate(3,2), new Pawn(WHITE));
-        figures.put(new Coordinate(4,2), new Pawn(WHITE));
-        figures.put(new Coordinate(5,2), new Pawn(WHITE));
-        figures.put(new Coordinate(6,2), new Pawn(WHITE));
-        figures.put(new Coordinate(7,2), new Pawn(WHITE));
-        figures.put(new Coordinate(8,2), new Pawn(WHITE));
+        figures.put(new Coordinate(2,3), new Pawn(WHITE));
+        figures.put(new Coordinate(2,4), new Pawn(WHITE));
+        figures.put(new Coordinate(2,5), new Pawn(WHITE));
+        figures.put(new Coordinate(2,6), new Pawn(WHITE));
+        figures.put(new Coordinate(2,7), new Pawn(WHITE));
+        figures.put(new Coordinate(2,8), new Pawn(WHITE));
 
-        figures.put(new Coordinate(1,7), new Pawn(BLACK));
-        figures.put(new Coordinate(2,7), new Pawn(BLACK));
-        figures.put(new Coordinate(3,7), new Pawn(BLACK));
-        figures.put(new Coordinate(4,7), new Pawn(BLACK));
-        figures.put(new Coordinate(5,7), new Pawn(BLACK));
-        figures.put(new Coordinate(6,7), new Pawn(BLACK));
+        figures.put(new Coordinate(7,1), new Pawn(BLACK));
+        figures.put(new Coordinate(7,2), new Pawn(BLACK));
+        figures.put(new Coordinate(7,3), new Pawn(BLACK));
+        figures.put(new Coordinate(7,4), new Pawn(BLACK));
+        figures.put(new Coordinate(7,5), new Pawn(BLACK));
+        figures.put(new Coordinate(7,6), new Pawn(BLACK));
         figures.put(new Coordinate(7,7), new Pawn(BLACK));
-        figures.put(new Coordinate(8,7), new Pawn(BLACK));
+        figures.put(new Coordinate(7,8), new Pawn(BLACK));
 
-        figures.put(new Coordinate(1,8), new Rook(BLACK));
-        figures.put(new Coordinate(2,8), new Knight(BLACK));
-        figures.put(new Coordinate(3,8), new Bishop(BLACK));
-        figures.put(new Coordinate(4,8), new Queen(BLACK));
-        figures.put(new Coordinate(5,8), new King(BLACK));
-        figures.put(new Coordinate(6,8), new Bishop(BLACK));
-        figures.put(new Coordinate(7,8), new Knight(BLACK));
+        figures.put(new Coordinate(8,1), new Rook(BLACK));
+        figures.put(new Coordinate(8,2), new Knight(BLACK));
+        figures.put(new Coordinate(8,3), new Bishop(BLACK));
+        figures.put(new Coordinate(8,4), new Queen(BLACK));
+        figures.put(new Coordinate(8,5), new King(BLACK));
+        figures.put(new Coordinate(8,6), new Bishop(BLACK));
+        figures.put(new Coordinate(8,7), new Knight(BLACK));
         figures.put(new Coordinate(8,8), new Rook(BLACK));
 
     }
@@ -68,5 +68,7 @@ public class Board {
     }
 
 
-
+    public void setFigures(Map<Coordinate, Figure> figures) {
+        this.figures = figures;
+    }
 }

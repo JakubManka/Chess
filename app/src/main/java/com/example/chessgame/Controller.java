@@ -34,6 +34,9 @@ public class Controller {
                 .filter(e -> e.getValue() != null)
                 .filter(e -> !e.getValue().whereCanIMove(boardStatus, e.getKey()).isEmpty())
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+    }
 
+    public void setFigures(Map<Coordinate, Figure> figures) {
+        board.setFigures(figures);
     }
 }
