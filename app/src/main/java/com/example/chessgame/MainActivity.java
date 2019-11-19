@@ -11,11 +11,15 @@ import com.example.chessgame.figures.Figure;
 import com.example.chessgame.figures.Pawn;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.example.chessgame.Constants.COORDINATES;
 
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Button player1Name;
     Button player2Name;
     boolean clicked = false;
-    Coordinate preClicked = null;
+    Button preClicked = null;
 
 
     Controller controller = new Controller(this);
@@ -45,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
 //                Toast.LENGTH_SHORT);
 
         initializeView();
-        setForeground();
-        update();
         onClick();
 //        update();
 
@@ -54,39 +56,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void onClick() {
-
-        Map<Button, Coordinate> clickableButtons = buttons;
-        buttons.keySet().stream()
+            buttons.keySet().stream()
                 .filter(View::isClickable)
                 .forEach(b -> b.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Map<Coordinate, Figure> figures = controller.getFigures();
-                        List<Coordinate> moveList = figures.get(clickableButtons.get(v)).whereCanIMove(figures, clickableButtons.get(v));
-
+//                        List <Coordinate> moveList = Collections.emptyList();
+                        List <Coordinate>  moveList = figures.get(buttons.get(b)).whereCanIMove(figures, buttons.get(b));
+//                        Map<Button, Coordinate> clickableButtons;
                         if (!clicked) {
-                            for (Entry<Button, Coordinate> entry : clickableButtons.entrySet()) {
-                                for (Object coordinate : moveList) {
-                                    if (entry.getValue().equals(coordinate)) {
-                                        entry.getKey().setBackgroundColor(getResources().getColor(R.color.blue));
-                                        entry.getKey().setClickable(true);
-                                        clickableButtons.put(entry.getKey(), entry.getValue());
-                                        preClicked = entry.getValue();
-                                        clicked = true;
-                                    }
-                                }
+
+                            for (Object coordinate : moveList) {
+                                buttons.entrySet().stream()
+                                        .filter(bu -> bu.getValue().equals(coordinate))
+                                        .forEach(bu -> {
+                                            bu.getKey().setClickable(true);
+                                            bu.getKey().setOnClickListener(this);
+                                            bu.getKey().setBackgroundColor(getResources().getColor(R.color.blue));
+                                            buttons.put(bu.getKey(), bu.getValue());
+                                            clicked = true;
+                                        });
+                                preClicked = b;
                             }
-                        } else {
-                            for (Entry<Button, Coordinate> entry : clickableButtons.entrySet()) {
-                                for (Object coordinate : moveList) {
-                                    if (entry.getValue().equals(coordinate)) {
-                                        figures.put((entry.getValue()), figures.get(preClicked));
-                                        figures.remove(preClicked);
-                                        figures.remove(entry.getValue());
 
-                                    }
-
-                                }
+                        } else  {
+                            for (Object coordinate : moveList) {
+                                buttons.entrySet().stream()
+                                        .filter(bu -> bu.getValue().equals(coordinate))
+//                                        .filter(bu -> bu.getKey().getequals(getColor(R.color.blue)))
+                                        .forEach(bu -> {
+                                            figures.put((bu.getValue()), figures.get(buttons.get(preClicked)));
+                                            figures.remove(buttons.get(preClicked));
+                                        });
                             }
                             controller.setFigures(figures);
                             clicked = false;
@@ -94,8 +96,35 @@ public class MainActivity extends AppCompatActivity {
                             update();
                         }
 
+//                        if (!clicked) {
+//                            preClicked = b;
+//                            for (Entry<Button, Coordinate> entry : buttons.entrySet()) {
+//                                for (Object coordinate : moveList) {
+//                                    if (entry.getValue().equals(coordinate)) {
+//                                        entry.getKey().setBackgroundColor(getResources().getColor(R.color.blue));
+//                                        entry.getKey().setClickable(true);
+//                                        buttons.put(entry.getKey(), entry.getValue());
+//
+//                                        clicked = true;
+//                                    }
+//                                }
+//                            }
+//                        } else {
+//                            for (Entry<Button, Coordinate> entry : buttons.entrySet()) {
+//                                for (Object coordinate : moveList) {
+//                                    if (entry.getValue().equals(coordinate) && entry.) {
+//                                        figures.put((entry.getValue()), figures.get(buttons.get(preClicked)));
+//                                        figures.remove(buttons.get(preClicked));
+//                                        figures.remove(entry.getValue());
+//                                    }
+//                                }
+//                            }
+//                            controller.setFigures(figures);
+//                            clicked = false;
+//                            preClicked = null;
+//                            update();
+//                        }
                     }
-
                 }));
     }
 
@@ -104,6 +133,14 @@ public class MainActivity extends AppCompatActivity {
         // i = [A-H] [1-8]
         // j = [1-8] [1-8]
         clicked = false;
+        for (int i = 0; i < COORDINATES.length; i++) {
+            for (int j = 0; j < COORDINATES[i].length; j++) {
+                Button button = (Button) findViewById(COORDINATES[i][j]);
+//                button.setClickable(false);
+                buttons.put(button, new Coordinate(i + 1, j + 1));
+            }
+        }
+
 
         player1Time = findViewById(R.id.player1time);
         player2Time = findViewById(R.id.player2time);
@@ -121,16 +158,6 @@ public class MainActivity extends AppCompatActivity {
                 Button button = (Button) findViewById(COORDINATES[i][j]);
                 button.setClickable(false);
                 buttons.put(button, new Coordinate(i + 1, j + 1));
-            }
-        }
-
-        controller.whatFigureCanMove(controller.getFigures()).keySet().stream()
-                .map(this::findButton)
-                .forEach(b -> b.setClickable(true));
-//                .forEach(b -> b.setBackgroundColor(getResources().getColor(R.color.black)));
-        for (int i = 0; i < COORDINATES.length; i++) {
-            for (int j = 0; j < COORDINATES[i].length; j++) {
-                Button button = (Button) findViewById(COORDINATES[i][j]);
 
                 int m = (j + i % 2) % 2;
                 if (m == 0) {
@@ -140,6 +167,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+
+        controller.whatFigureCanMove(controller.getFigures()).keySet().stream()
+                .map(this::findButton)
+                .forEach(b -> b.setClickable(true));
+//                .forEach(b -> b.setBackgroundColor(getResources().getColor(R.color.black)));
 
         setForeground();
     }
