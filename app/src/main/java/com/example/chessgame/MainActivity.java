@@ -62,10 +62,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         Map<Coordinate, Figure> figures = controller.getFigures();
-//                        List <Coordinate> moveList = Collections.emptyList();
                         List <Coordinate>  moveList = figures.get(buttons.get(b)).whereCanIMove(figures, buttons.get(b));
-//                        Map<Button, Coordinate> clickableButtons;
-                        if (!clicked) {
+                        if (!clicked && moveList!=null) {
 
                             for (Object coordinate : moveList) {
                                 buttons.entrySet().stream()
@@ -84,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                             for (Object coordinate : moveList) {
                                 buttons.entrySet().stream()
                                         .filter(bu -> bu.getValue().equals(coordinate))
-//                                        .filter(bu -> bu.getKey().getequals(getColor(R.color.blue)))
                                         .forEach(bu -> {
                                             figures.put((bu.getValue()), figures.get(buttons.get(preClicked)));
                                             figures.remove(buttons.get(preClicked));
