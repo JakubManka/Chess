@@ -58,71 +58,8 @@ public class MainActivity extends AppCompatActivity {
     void onClick() {
             buttons.keySet().stream()
                 .filter(View::isClickable)
-                .forEach(b -> b.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Map<Coordinate, Figure> figures = controller.getFigures();
-                        List <Coordinate>  moveList = figures.get(buttons.get(b)).whereCanIMove(figures, buttons.get(b));
-                        if (!clicked && moveList!=null) {
+                .forEach(b -> b.setOnClickListener(createListener(b)));
 
-                            for (Object coordinate : moveList) {
-                                buttons.entrySet().stream()
-                                        .filter(bu -> bu.getValue().equals(coordinate))
-                                        .forEach(bu -> {
-                                            bu.getKey().setClickable(true);
-                                            bu.getKey().setOnClickListener(this);
-                                            bu.getKey().setBackgroundColor(getResources().getColor(R.color.blue));
-                                            buttons.put(bu.getKey(), bu.getValue());
-                                            clicked = true;
-                                        });
-                                preClicked = b;
-                            }
-
-                        } else  {
-                            for (Object coordinate : moveList) {
-                                buttons.entrySet().stream()
-                                        .filter(bu -> bu.getValue().equals(coordinate))
-                                        .forEach(bu -> {
-                                            figures.put((bu.getValue()), figures.get(buttons.get(preClicked)));
-                                            figures.remove(buttons.get(preClicked));
-                                        });
-                            }
-                            controller.setFigures(figures);
-                            clicked = false;
-                            preClicked = null;
-                            update();
-                        }
-
-//                        if (!clicked) {
-//                            preClicked = b;
-//                            for (Entry<Button, Coordinate> entry : buttons.entrySet()) {
-//                                for (Object coordinate : moveList) {
-//                                    if (entry.getValue().equals(coordinate)) {
-//                                        entry.getKey().setBackgroundColor(getResources().getColor(R.color.blue));
-//                                        entry.getKey().setClickable(true);
-//                                        buttons.put(entry.getKey(), entry.getValue());
-//
-//                                        clicked = true;
-//                                    }
-//                                }
-//                            }
-//                        } else {
-//                            for (Entry<Button, Coordinate> entry : buttons.entrySet()) {
-//                                for (Object coordinate : moveList) {
-//                                    if (entry.getValue().equals(coordinate) && entry.) {
-//                                        figures.put((entry.getValue()), figures.get(buttons.get(preClicked)));
-//                                        figures.remove(buttons.get(preClicked));
-//                                        figures.remove(entry.getValue());
-//                                    }
-//                                }
-//                            }
-//                            controller.setFigures(figures);
-//                            clicked = false;
-//                            preClicked = null;
-//                            update();
-//                        }
-                    }
-                }));
     }
 
 
@@ -173,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         setForeground();
     }
 
-    private Button findButton(Coordinate figureCoordinates) {
+     Button findButton(Coordinate figureCoordinates) {
 //        for (Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {
 //            if (buttonCoordinateEntry.getValue().equals(figureCoordinates))
 //                return buttonCoordinateEntry.getKey();
@@ -192,9 +129,50 @@ public class MainActivity extends AppCompatActivity {
             final Figure figure = controller.getFigures().get(e.getValue());
             if (figure != null) {
                 e.getKey().setForeground(getDrawable(figure.getImageID()));
-            }
+            }else e.getKey().setForeground(null);
         });
 
+    }
+
+    private View.OnClickListener createListener(Button b){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Map<Coordinate, Figure> figures = controller.getFigures();
+                List <Coordinate>  moveList = figures.get(buttons.get(b)).whereCanIMove(figures, buttons.get(b));
+                if (!clicked) {
+
+                    for (Object coordinate : moveList) {
+                        buttons.entrySet().stream()
+                                .filter(bu -> bu.getValue().equals(coordinate))
+                                .forEach(bu -> {
+                                    bu.getKey().setClickable(true);
+                                    bu.getKey().setOnClickListener(this);
+                                    bu.getKey().setBackgroundColor(getResources().getColor(R.color.blue));
+                                    buttons.put(bu.getKey(), bu.getValue());
+                                    clicked = true;
+                                });
+                        preClicked = b;
+                    }
+
+                } else  {
+                    for (Object coordinate : moveList) {
+                        buttons.entrySet().stream()
+                                .filter(bu -> bu.getValue().equals(coordinate))
+                                .forEach(bu -> {
+                                    figures.put((bu.getValue()), figures.get(buttons.get(preClicked)));
+                                    figures.remove(buttons.get(preClicked));
+                                });
+                    }
+                    controller.setFigures(figures);
+                    clicked = false;
+                    preClicked = null;
+                    update();
+                }
+
+
+            }
+        };
     }
 
 
