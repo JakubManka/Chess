@@ -40,6 +40,7 @@ public class Controller {
         return boardStatus.entrySet().stream()
                 .filter(e -> e.getValue() != null)
                 .filter(e -> !e.getValue().whereCanIMove(boardStatus, e.getKey()).isEmpty())
+                .filter(e -> e.getValue().getColor().equals(board.whichPlayer()))
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
@@ -67,6 +68,7 @@ public class Controller {
                 if(mainActivity.buttons.get(b).equals(coordinate)){
                     figures.put(mainActivity.buttons.get(b), figures.get(mainActivity.buttons.get(preClicked)));
                     figures.remove(mainActivity.buttons.get(preClicked));
+                    board.changePlayer();
                 }
             }
             setFigures(figures);
@@ -75,4 +77,8 @@ public class Controller {
             mainActivity.update();
         }
     }
+
+//    public FigureColor whichPlayer(){
+//        return board.whichPlayer();
+//    }
 }
