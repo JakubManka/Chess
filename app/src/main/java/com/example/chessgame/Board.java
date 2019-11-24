@@ -7,12 +7,10 @@ import com.example.chessgame.figures.Knight;
 import com.example.chessgame.figures.Pawn;
 import com.example.chessgame.figures.Queen;
 import com.example.chessgame.figures.Rook;
-import com.example.chessgame.FigureName;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.chessgame.FigureColor.*;
 import static com.example.chessgame.FigureColor.BLACK;
 import static com.example.chessgame.FigureColor.WHITE;
 
@@ -80,12 +78,12 @@ public class Board {
     }
 
     public FigureColor whichPlayer() {
-        if (whitePlayer.isMyMove()) return WHITE;
+        if (whitePlayer.getMyMove()) return WHITE;
         else return BLACK;
     }
 
     public void changePlayer(){
-        if(whitePlayer.isMyMove()){
+        if(whitePlayer.getMyMove()){
             whitePlayer.setMyMove(false);
             blackPlayer.setMyMove(true);
         }else{

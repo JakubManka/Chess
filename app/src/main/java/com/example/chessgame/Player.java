@@ -10,7 +10,7 @@ public class Player {
         this.playerColor = playerColor;
     }
 
-    public boolean isMyMove() {
+    public boolean getMyMove() {
         return myMove;
     }
 
