@@ -4,6 +4,7 @@ package com.example.chessgame;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,7 +24,7 @@ import java.util.stream.Stream;
 
 import static com.example.chessgame.Constants.COORDINATES;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     Map<Button, Coordinate> buttons = new HashMap<>();
@@ -31,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
     Button player2Time;
     Button player1Name;
     Button player2Name;
-    boolean clicked = false;
-    Button preClicked = null;
+
 
 
     Controller controller = new Controller(this);
@@ -49,37 +49,27 @@ public class MainActivity extends AppCompatActivity {
 //                Toast.LENGTH_SHORT);
 
         initializeView();
-        onClick();
-//        update();
 
 
     }
 
-    void onClick() {
-            buttons.keySet().stream()
-                .filter(View::isClickable)
-                .forEach(b -> b.setOnClickListener(createListener(b)));
-
-    }
 
 
     void initializeView() {
         // i = [A-H] [1-8]
         // j = [1-8] [1-8]
-        clicked = false;
         for (int i = 0; i < COORDINATES.length; i++) {
             for (int j = 0; j < COORDINATES[i].length; j++) {
                 Button button = (Button) findViewById(COORDINATES[i][j]);
-//                button.setClickable(false);
+                button.setOnClickListener(this);
                 buttons.put(button, new Coordinate(i + 1, j + 1));
             }
         }
-
-
         player1Time = findViewById(R.id.player1time);
         player2Time = findViewById(R.id.player2time);
         player1Name = findViewById(R.id.player1name);
         player2Name = findViewById(R.id.player2name);
+
 
         update();
         //time, palyer names, bots, undo
@@ -110,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         setForeground();
     }
 
-     Button findButton(Coordinate figureCoordinates) {
+    Button findButton(Coordinate figureCoordinates) {
 //        for (Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {
 //            if (buttonCoordinateEntry.getValue().equals(figureCoordinates))
 //                return buttonCoordinateEntry.getKey();
@@ -129,51 +119,16 @@ public class MainActivity extends AppCompatActivity {
             final Figure figure = controller.getFigures().get(e.getValue());
             if (figure != null) {
                 e.getKey().setForeground(getDrawable(figure.getImageID()));
-            }else e.getKey().setForeground(null);
+            } else e.getKey().setForeground(null);
         });
 
     }
 
-    private View.OnClickListener createListener(Button b){
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map<Coordinate, Figure> figures = controller.getFigures();
-                List <Coordinate>  moveList = figures.get(buttons.get(b)).whereCanIMove(figures, buttons.get(b));
-                if (!clicked) {
-
-                    for (Object coordinate : moveList) {
-                        buttons.entrySet().stream()
-                                .filter(bu -> bu.getValue().equals(coordinate))
-                                .forEach(bu -> {
-                                    bu.getKey().setClickable(true);
-                                    bu.getKey().setOnClickListener(this);
-                                    bu.getKey().setBackgroundColor(getResources().getColor(R.color.blue));
-                                    buttons.put(bu.getKey(), bu.getValue());
-                                    clicked = true;
-                                });
-                        preClicked = b;
-                    }
-
-                } else  {
-                    for (Object coordinate : moveList) {
-                        buttons.entrySet().stream()
-                                .filter(bu -> bu.getValue().equals(coordinate))
-                                .forEach(bu -> {
-                                    figures.put((bu.getValue()), figures.get(buttons.get(preClicked)));
-                                    figures.remove(buttons.get(preClicked));
-                                });
-                    }
-                    controller.setFigures(figures);
-                    clicked = false;
-                    preClicked = null;
-                    update();
-                }
 
 
-            }
-        };
+    @Override
+    public void onClick(View b) {
+        controller.onClick(b);
     }
-
-
 }
+

@@ -1,9 +1,12 @@
 package com.example.chessgame;
 
 import android.util.Log;
+import android.view.View;
 
 import com.example.chessgame.figures.Figure;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -11,6 +14,10 @@ import java.util.stream.Collectors;
 public class Controller {
     private MainActivity mainActivity;
     private Board board = new Board();
+    boolean clicked = false;
+    View preClicked = null;
+    List<Coordinate> moveList =  Collections.emptyList();
+
 
 
     Controller(MainActivity mainActivity) {
@@ -38,5 +45,34 @@ public class Controller {
 
     public void setFigures(Map<Coordinate, Figure> figures) {
         board.setFigures(figures);
+    }
+
+    public void onClick(View b){
+        Map<Coordinate, Figure> figures = getFigures();
+        if (!clicked) {
+            moveList = figures.get(mainActivity.buttons.get(b)).whereCanIMove(figures, mainActivity.buttons.get(b));
+            for (Object coordinate : moveList) {
+                mainActivity.buttons.entrySet().stream()
+                        .filter(bu -> bu.getValue().equals(coordinate))
+                        .forEach(bu -> {
+                            bu.getKey().setClickable(true);
+                            bu.getKey().setBackgroundColor(mainActivity.getResources().getColor(R.color.blue));
+                            mainActivity.buttons.put(bu.getKey(), bu.getValue());
+                            clicked = true;
+                        });
+                preClicked = b;
+            }
+        } else {
+            for (Object coordinate : moveList) {
+                if(mainActivity.buttons.get(b).equals(coordinate)){
+                    figures.put(mainActivity.buttons.get(b), figures.get(mainActivity.buttons.get(preClicked)));
+                    figures.remove(mainActivity.buttons.get(preClicked));
+                }
+            }
+            setFigures(figures);
+            clicked = false;
+            preClicked = null;
+            mainActivity.update();
+        }
     }
 }

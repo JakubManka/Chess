@@ -17,9 +17,9 @@ public class Rook extends Figure {
         super(color, color.equals(FigureColor.BLACK) ? R.drawable.b_rook : R.drawable.w_rook);
         this.name = FigureName.ROOK;
     }
-    List<Coordinate> moveList = new ArrayList<>();
     @Override
     public List<Coordinate> whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate) {
+        List<Coordinate> moveList = new ArrayList<>();
         for (int y = coordinate.getY()+1; y < 9; y++) {
             Coordinate c = new Coordinate(coordinate.getX(), y);
             moveList.add(c);
