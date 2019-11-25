@@ -660,14 +660,33 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
+        <Button
+            android:layout_width="100dp"
             android:layout_height="match_parent"
-            android:text="3">
+            android:id="@+id/undo"
+            android:layout_weight="1"
+            android:layout_marginRight="120dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:foregroundGravity="center"
+            android:background="#80FFFFFF">
+        </Button>
 
-        </TextView>
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:id="@+id/menu"
+            android:layout_weight="1"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:foregroundGravity="center"
+            android:background="#80FFFFFF">
+        </Button>
+
+
 
 
     </LinearLayout>

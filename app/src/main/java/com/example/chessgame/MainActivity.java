@@ -3,6 +3,8 @@ package com.example.chessgame;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button player2Time;
     Button player1Name;
     Button player2Name;
+    Button undo;
+    Button menu;
 
 
 
@@ -40,19 +44,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_main);
 
 //        Toast toast = Toast.makeText(getApplicationContext(),
 //                "This is a message displayed in a Toast",
 //                Toast.LENGTH_SHORT);
 
         initializeView();
-
-
+        undo();
     }
-
-
 
     void initializeView() {
         // i = [A-H] [1-8]
@@ -68,7 +72,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player2Time = findViewById(R.id.player2time);
         player1Name = findViewById(R.id.player1name);
         player2Name = findViewById(R.id.player2name);
+        undo = findViewById(R.id.undo);
+        menu = findViewById(R.id.menu);
 
+        undo.setForeground(getDrawable(R.drawable.undo));
+        menu.setForeground(getDrawable(R.drawable.menu));
 
         update();
         //time, palyer names, bots, undo
@@ -122,6 +130,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
+    public void undo(){
+        undo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                controller.undo();
+                update();
+            }
+        });
+    }
+
 
 
 

@@ -1,6 +1,5 @@
 package com.example.chessgame;
 
-import android.util.Log;
 import android.view.View;
 
 import com.example.chessgame.figures.Figure;
@@ -75,10 +74,14 @@ public class Controller {
             clicked = false;
             preClicked = null;
             mainActivity.update();
+            board.addMove();
         }
     }
 
-//    public FigureColor whichPlayer(){
-//        return board.whichPlayer();
-//    }
+    public void undo() {
+        board.undoLastMove();
+        mainActivity.update();
+    }
+
+
 }

@@ -8,7 +8,9 @@ import com.example.chessgame.figures.Pawn;
 import com.example.chessgame.figures.Queen;
 import com.example.chessgame.figures.Rook;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static com.example.chessgame.FigureColor.BLACK;
@@ -22,6 +24,8 @@ public class Board {
     private int player2Time;
     private Player whitePlayer = new Player(WHITE);
     private Player blackPlayer = new Player(BLACK);
+    private List<Map<Coordinate, Figure>> allMoves = new ArrayList<>();
+    private int i=0;
 
     Board() {
         // x = [A-H] [1-8]
@@ -64,6 +68,7 @@ public class Board {
 
         whitePlayer.setMyMove(true);
         blackPlayer.setMyMove(false);
+        addMove();
 
     }
 
@@ -90,5 +95,20 @@ public class Board {
             whitePlayer.setMyMove(true);
             blackPlayer.setMyMove(false);
         }
+    }
+
+    public void addMove(){
+        allMoves.add(i, figures);
+        i++;
+    }
+
+    public List<Map<Coordinate, Figure>> getAllMoves() {
+        return allMoves;
+    }
+
+    public void undoLastMove()
+    {
+        allMoves.remove(allMoves.size()-1);
+        figures = allMoves.get(allMoves.size()-1);
     }
 }
