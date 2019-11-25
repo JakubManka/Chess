@@ -25,7 +25,6 @@ public class Board {
     private Player whitePlayer = new Player(WHITE);
     private Player blackPlayer = new Player(BLACK);
     private List<Map<Coordinate, Figure>> allMoves = new ArrayList<>();
-    private int i=0;
 
     Board() {
         // x = [A-H] [1-8]
@@ -98,8 +97,7 @@ public class Board {
     }
 
     public void addMove(){
-        allMoves.add(i, figures);
-        i++;
+        allMoves.add(figures);
     }
 
     public List<Map<Coordinate, Figure>> getAllMoves() {
