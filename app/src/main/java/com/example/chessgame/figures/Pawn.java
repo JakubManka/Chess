@@ -38,9 +38,12 @@ public class Pawn extends Figure {
                 .filter(c -> !map.get(c).getColor().equals(getColor()))
                 .collect(Collectors.toList());
 
-        if (map.get(co) == null) {
-            moves.add(co);
-        }
+        if (map.get(co) == null)  moves.add(co);
+
+        if(coordinate.x == 2)  moves.add(new Coordinate(co.x + 1, co.y));
+
+        if(coordinate.x == 7) moves.add(new Coordinate(co.x - 1, co.y));
+
         return moves;
 
     }

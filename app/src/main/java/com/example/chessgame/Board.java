@@ -13,21 +13,19 @@ import com.example.chessgame.figures.Rook;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.example.chessgame.FigureColor.BLACK;
 import static com.example.chessgame.FigureColor.WHITE;
 
 public class Board {
-    private static final long TIME_IN_MILLIS = 600000;
 
     private Map<Coordinate, Figure> figures = new HashMap<>();
-    private long player1Time = TIME_IN_MILLIS;
-    private long player2Time = TIME_IN_MILLIS;
     private Player whitePlayer = new Player(WHITE);
     private Player blackPlayer = new Player(BLACK);
     private List<Map<Coordinate, Figure>> allMoves = new ArrayList<>();
-    private CountDownTimer timer;
+
 
 
     Board() {
@@ -72,7 +70,6 @@ public class Board {
         whitePlayer.setMyMove(true);
         blackPlayer.setMyMove(false);
         addMove();
-
     }
 
 
@@ -94,33 +91,14 @@ public class Board {
         if(whitePlayer.getMyMove()){
             whitePlayer.setMyMove(false);
             blackPlayer.setMyMove(true);
-            startTimer(player1Time);
-            pauseTimer();
         }else{
             whitePlayer.setMyMove(true);
             blackPlayer.setMyMove(false);
-            startTimer(player2Time);
-            pauseTimer();
         }
     }
 
-    private void pauseTimer() {
 
-    }
 
-    private void startTimer(long player) {
-        timer = new CountDownTimer(player, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                player = millisUntilFinished;
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-        }.start();
-    }
 
     void addMove(){
         allMoves.add(figures);
@@ -131,4 +109,7 @@ public class Board {
         allMoves.remove(allMoves.size()-1);
         figures = allMoves.get(allMoves.size()-1);
     }
+
+
 }
+

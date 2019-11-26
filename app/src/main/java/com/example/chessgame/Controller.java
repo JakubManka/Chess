@@ -6,6 +6,7 @@ import com.example.chessgame.figures.Figure;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -74,7 +75,9 @@ public class Controller {
             clicked = false;
             preClicked = null;
             mainActivity.update();
-            board.addMove();
+            board.addMove(
+
+            );
         }
     }
 
@@ -83,5 +86,14 @@ public class Controller {
         mainActivity.update();
     }
 
+   public void timers(){
+        if(board.whichPlayer().equals(FigureColor.WHITE)){
+            mainActivity.start1Timer();
+            mainActivity.stopTimer2();
+        }else if(board.whichPlayer().equals(FigureColor.BLACK)){
+            mainActivity.start2Timer();
+            mainActivity.stopTimer1();
+        }
+   }
 
 }

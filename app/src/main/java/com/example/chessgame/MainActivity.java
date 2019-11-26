@@ -2,6 +2,7 @@ package com.example.chessgame;
 
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -36,7 +38,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button undo;
     Button menu;
 
+    private long time1 = TIME_IN_MILLIS;
+    private long time2 = TIME_IN_MILLIS;
 
+    boolean timer1Run;
+    boolean timer2Run;
+
+
+    private CountDownTimer timer1;
+    private CountDownTimer timer2;
+    private String player1TimeS = String.format(Locale.getDefault(), "%02d:%02d", 10, 0);
+    private String player2TimeS = String.format(Locale.getDefault(), "%02d:%02d", 10, 0);
+    private static final long TIME_IN_MILLIS = 600000;
 
     Controller controller = new Controller(this);
 
@@ -83,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void update() {
-
         for (int i = 0; i < COORDINATES.length; i++) {
             for (int j = 0; j < COORDINATES[i].length; j++) {
                 Button button = (Button) findViewById(COORDINATES[i][j]);
@@ -98,14 +110,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
-
         controller.whatFigureCanMove(controller.getFigures()).keySet().stream()
                 .map(this::findButton)
                 .forEach(b -> b.setClickable(true));
 //                .forEach(b -> b.setBackgroundColor(getResources().getColor(R.color.black)));
 
         setForeground();
+        controller.timers();
     }
+
 
     Button findButton(Coordinate figureCoordinates) {
 //        for (Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {
@@ -131,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void undo(){
+    public void undo() {
         undo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,12 +154,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    void start1Timer() {
+        timer1 = new CountDownTimer(time1, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                time1 = millisUntilFinished;
+                update1Timer();
+                timer1Run = true;
+            }
 
+            @Override
+            public void onFinish() {
+            }
+        }.start();
+    }
 
+    void start2Timer() {
+        timer2 = new CountDownTimer(time2, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                time2 = millisUntilFinished;
+                update2Timer();
+                timer2Run = true;
+            }
+
+            @Override
+            public void onFinish() {
+            }
+
+        }.start();
+    }
+
+    private void update1Timer() {
+        int minutes = (int) (time1 / 1000) / 60;
+        int seconds = (int) (time1 / 1000) % 60;
+
+        player1TimeS = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        player1Time.setText(player1TimeS);
+    }
+
+    private void update2Timer() {
+        int minutes = (int) (time2 / 1000) / 60;
+        int seconds = (int) (time2 / 1000) % 60;
+
+        player2TimeS = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        player2Time.setText(player2TimeS);
+    }
+
+    void stopTimer1() {
+        if (timer1Run) timer1.cancel();
+    }
+
+    void stopTimer2() {
+        if(timer2Run) timer2.cancel();
+    }
 
     @Override
     public void onClick(View b) {
         controller.onClick(b);
     }
+
+
 }
 
