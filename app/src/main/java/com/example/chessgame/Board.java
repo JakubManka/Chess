@@ -1,5 +1,7 @@
 package com.example.chessgame;
 
+import android.os.CountDownTimer;
+
 import com.example.chessgame.figures.Bishop;
 import com.example.chessgame.figures.Figure;
 import com.example.chessgame.figures.King;
@@ -17,14 +19,16 @@ import static com.example.chessgame.FigureColor.BLACK;
 import static com.example.chessgame.FigureColor.WHITE;
 
 public class Board {
-
+    private static final long TIME_IN_MILLIS = 600000;
 
     private Map<Coordinate, Figure> figures = new HashMap<>();
-    private int player1Time;
-    private int player2Time;
+    private long player1Time = TIME_IN_MILLIS;
+    private long player2Time = TIME_IN_MILLIS;
     private Player whitePlayer = new Player(WHITE);
     private Player blackPlayer = new Player(BLACK);
     private List<Map<Coordinate, Figure>> allMoves = new ArrayList<>();
+    private CountDownTimer timer;
+
 
     Board() {
         // x = [A-H] [1-8]
@@ -81,30 +85,48 @@ public class Board {
         this.figures = figures;
     }
 
-    public FigureColor whichPlayer() {
+    FigureColor whichPlayer() {
         if (whitePlayer.getMyMove()) return WHITE;
         else return BLACK;
     }
 
-    public void changePlayer(){
+    void changePlayer(){
         if(whitePlayer.getMyMove()){
             whitePlayer.setMyMove(false);
             blackPlayer.setMyMove(true);
+            startTimer(player1Time);
+            pauseTimer();
         }else{
             whitePlayer.setMyMove(true);
             blackPlayer.setMyMove(false);
+            startTimer(player2Time);
+            pauseTimer();
         }
     }
 
-    public void addMove(){
+    private void pauseTimer() {
+
+    }
+
+    private void startTimer(long player) {
+        timer = new CountDownTimer(player, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                player = millisUntilFinished;
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+    }
+
+    void addMove(){
         allMoves.add(figures);
     }
 
-    public List<Map<Coordinate, Figure>> getAllMoves() {
-        return allMoves;
-    }
-
-    public void undoLastMove()
+    void undoLastMove()
     {
         allMoves.remove(allMoves.size()-1);
         figures = allMoves.get(allMoves.size()-1);
