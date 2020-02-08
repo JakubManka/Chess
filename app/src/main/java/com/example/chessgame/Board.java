@@ -18,19 +18,34 @@ import java.util.Map;
 
 import static com.example.chessgame.FigureColor.BLACK;
 import static com.example.chessgame.FigureColor.WHITE;
+import static com.example.chessgame.FigureName.*;
 
 public class Board {
 
     private Map<Coordinate, Figure> figures = new HashMap<>();
     private Player whitePlayer = new Player(WHITE);
     private Player blackPlayer = new Player(BLACK);
-    private List<Map<Coordinate, Figure>> allMoves = new ArrayList<>();
+    private List<Map<Coordinate, Figure>> allMoves = new ArrayList<>(); // all done moves from start
+    private Map<Coordinate, List<Coordinate>> possibleMoves = new HashMap<>();
+    private  boolean check = false;
 
 
 
     Board() {
+        resetBoard();
+        whitePlayer.setMyMove(true);
+        blackPlayer.setMyMove(false);
+        addMove();
+
+    }
+
+    void resetBoard() {
+        figures = new HashMap<>();
+
         // x = [A-H] [1-8]
         // y = [1-8] [1-8]
+
+
         figures.put(new Coordinate(1, 1), new Rook(WHITE));
         figures.put(new Coordinate(1, 2), new Knight(WHITE));
         figures.put(new Coordinate(1, 3), new Bishop(WHITE));
@@ -67,9 +82,7 @@ public class Board {
         figures.put(new Coordinate(8, 7), new Knight(BLACK));
         figures.put(new Coordinate(8, 8), new Rook(BLACK));
 
-        whitePlayer.setMyMove(true);
-        blackPlayer.setMyMove(false);
-        addMove();
+
     }
 
 
@@ -97,18 +110,47 @@ public class Board {
         }
     }
 
+    void checkmate(){
+
+        check = false;
+
+        figures.entrySet().stream()
+                .filter(e -> e.getValue() != null)
+                .filter(e -> !e.getValue().whereCanIMove(figures, e.getKey()).isEmpty())
+                .forEach(e -> possibleMoves.put(e.getKey(), e.getValue().whereCanIMove(figures, e.getKey())));
+
+        possibleMoves.values().forEach(e -> {
+            e.forEach(z -> {
+                figures.entrySet().stream()
+                        .filter(f -> f.getValue().getName() == KING)
+                        .filter(f -> f.getKey() == z)
+                        .forEach(f -> check = true);
+            });
+                });
+        if(check){
+            changePlayer();
+        }
+
+    }
+
+
 
 
 
     void addMove(){
-        allMoves.add(figures);
+
+        Map<Coordinate, Figure> oldFigures = new HashMap<>(figures);
+        allMoves.add(oldFigures);
     }
 
     void undoLastMove()
     {
-        allMoves.remove(allMoves.size()-1);
-        figures = allMoves.get(allMoves.size()-1);
+        if(allMoves.size()>0) {
+            allMoves.remove(allMoves.size() - 1);
+            figures = allMoves.get(allMoves.size() - 1);
+        }
     }
+
 
 
 }

@@ -113,12 +113,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         controller.whatFigureCanMove(controller.getFigures()).keySet().stream()
                 .map(this::findButton)
                 .forEach(b -> b.setClickable(true));
-//                .forEach(b -> b.setBackgroundColor(getResources().getColor(R.color.black)));
-
         setForeground();
         controller.timers();
     }
-
 
     Button findButton(Coordinate figureCoordinates) {
 //        for (Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {

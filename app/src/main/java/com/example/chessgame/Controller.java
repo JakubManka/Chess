@@ -75,15 +75,17 @@ public class Controller {
             clicked = false;
             preClicked = null;
             mainActivity.update();
-            board.addMove(
-
-            );
+            board.addMove();
+            board.checkmate();
         }
     }
 
     public void undo() {
         board.undoLastMove();
         mainActivity.update();
+        mainActivity.stopTimer1();
+        mainActivity.stopTimer2();
+        board.changePlayer();
     }
 
    public void timers(){
@@ -94,6 +96,11 @@ public class Controller {
             mainActivity.start2Timer();
             mainActivity.stopTimer1();
         }
-   }
+    }
+
+    public void reset(){
+        board.resetBoard();
+        //timers reset
+    }
 
 }
