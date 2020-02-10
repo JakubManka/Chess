@@ -6,7 +6,6 @@ import com.example.chessgame.figures.Figure;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -14,9 +13,9 @@ import java.util.stream.Collectors;
 public class Controller {
     private MainActivity mainActivity;
     private Board board = new Board();
-    boolean clicked = false;
-    View preClicked = null;
-    List<Coordinate> moveList =  Collections.emptyList();
+    private boolean clicked = false;
+    private View preClicked = null;
+    private List<Coordinate> moveList =  Collections.emptyList();
 
 
 
@@ -28,41 +27,56 @@ public class Controller {
         return board.getFigures();
     }
 
-    public Map<Coordinate, Figure> whatFigureCanMove(Map<Coordinate, Figure> boardStatus) {
-//        Map<Coordinate, Figure> whatCanMove = new HashMap<>();
-//
-//        for(Map.Entry<Coordinate, Figure> coordinateFigureEntry : boardStatus.entrySet()) {
-//            Figure figure = coordinateFigureEntry.getValue();
-//            if(figure != null && !figure.whereCanIMove(boardStatus, coordinateFigureEntry.getKey()).isEmpty()) {
-//                whatCanMove.put(coordinateFigureEntry.getKey(), figure);
-//            }
-//        }
-        return boardStatus.entrySet().stream()
+    Map<Coordinate, Figure> whatFigureCanMove(Map<Coordinate, Figure> boardStatus) {
+
+        Map<Coordinate, Figure> temp =  boardStatus.entrySet().stream()
                 .filter(e -> e.getValue() != null)
                 .filter(e -> !e.getValue().whereCanIMove(boardStatus, e.getKey()).isEmpty())
                 .filter(e -> e.getValue().getColor().equals(board.whichPlayer()))
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+        Map<Coordinate, Figure> temp2 = temp;
+        if(board.check()){
+            board.getWhoCheck().forEach(coordinate ->{
+                Figure figure = board.whatFigureIsThere(coordinate);
+                List<Coordinate> unCheckList = (figure.howToUnCheck(boardStatus, coordinate, board.kingCoordinates));
+                temp2.entrySet().forEach(entry ->{
+                    List<Coordinate> moveList = entry.getValue().whereCanIMove(boardStatus, entry.getKey());
+                    boolean sameCoordinates = false;
+                    for(Coordinate coordinate1 : unCheckList) {
+                        for (Coordinate coordinate2 : moveList) {
+                            if (coordinate1 == coordinate2) {
+                                sameCoordinates = true;
+                                break;
+                            }
+                        }
+                    }
+                    if (!sameCoordinates) temp.remove(entry.getKey());
+                });
+            });
+        }
+        return temp;
     }
 
-    public void setFigures(Map<Coordinate, Figure> figures) {
-        board.setFigures(figures);
-    }
-
-    public void onClick(View b){
+    void onClick(View b){
         Map<Coordinate, Figure> figures = getFigures();
         if (!clicked) {
             moveList = figures.get(mainActivity.buttons.get(b)).whereCanIMove(figures, mainActivity.buttons.get(b));
-            for (Object coordinate : moveList) {
-                mainActivity.buttons.entrySet().stream()
-                        .filter(bu -> bu.getValue().equals(coordinate))
-                        .forEach(bu -> {
-                            bu.getKey().setClickable(true);
-                            bu.getKey().setBackgroundColor(mainActivity.getResources().getColor(R.color.blue));
-                            mainActivity.buttons.put(bu.getKey(), bu.getValue());
-                            clicked = true;
-                        });
-                preClicked = b;
-            }
+//            if(!board.check()){
+                for (Object coordinate : moveList) {
+                    mainActivity.buttons.entrySet().stream()
+                            .filter(bu -> bu.getValue().equals(coordinate))
+                            .forEach(bu -> {
+                                bu.getKey().setClickable(true);
+                                bu.getKey().setBackgroundColor(mainActivity.getResources().getColor(R.color.blue));
+                                mainActivity.buttons.put(bu.getKey(), bu.getValue());
+                                clicked = true;
+                            });
+                    preClicked = b;
+                }
+//            }else{
+
+
+//            }
         } else {
             for (Object coordinate : moveList) {
                 if(mainActivity.buttons.get(b).equals(coordinate)){
@@ -71,21 +85,23 @@ public class Controller {
                     board.changePlayer();
                 }
             }
-            setFigures(figures);
+            board.setFigures(figures);
             clicked = false;
             preClicked = null;
             mainActivity.update();
             board.addMove();
-            board.checkmate();
+            if(board.check()) mainActivity.check.setVisibility(View.VISIBLE);
+            else mainActivity.check.setVisibility(View.INVISIBLE);
         }
     }
 
     public void undo() {
-        board.undoLastMove();
-        mainActivity.update();
-        mainActivity.stopTimer1();
-        mainActivity.stopTimer2();
-        board.changePlayer();
+        if(board.getAllMoves().size() > 1) {
+            board.undoLastMove();
+            mainActivity.update();
+            board.changePlayer();
+            timers();
+        }
     }
 
    public void timers(){

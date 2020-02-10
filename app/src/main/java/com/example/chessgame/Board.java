@@ -1,7 +1,5 @@
 package com.example.chessgame;
 
-import android.os.CountDownTimer;
-
 import com.example.chessgame.figures.Bishop;
 import com.example.chessgame.figures.Figure;
 import com.example.chessgame.figures.King;
@@ -13,8 +11,8 @@ import com.example.chessgame.figures.Rook;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.example.chessgame.FigureColor.BLACK;
 import static com.example.chessgame.FigureColor.WHITE;
@@ -26,8 +24,12 @@ public class Board {
     private Player whitePlayer = new Player(WHITE);
     private Player blackPlayer = new Player(BLACK);
     private List<Map<Coordinate, Figure>> allMoves = new ArrayList<>(); // all done moves from start
-    private Map<Coordinate, List<Coordinate>> possibleMoves = new HashMap<>();
-    private  boolean check = false;
+    private Map<Coordinate, List<Coordinate>> possibleMoves = new HashMap<>(); // all moves that can be done
+    private  boolean checkWhite = false;
+    private  boolean checkBlack = false;
+    private List<Coordinate> howToUnCheck = new ArrayList<>(); // list of places where you can move to uncheck
+    private List<Coordinate> whoCheck = new ArrayList<>(); // list of places from where is check
+    Coordinate kingCoordinates;  // Coordinates of king
 
 
 
@@ -38,6 +40,7 @@ public class Board {
         addMove();
 
     }
+
 
     void resetBoard() {
         figures = new HashMap<>();
@@ -110,30 +113,40 @@ public class Board {
         }
     }
 
-    void checkmate(){
-
-        check = false;
+    boolean check(){
+        checkWhite = false;
+        checkBlack = false;
 
         figures.entrySet().stream()
                 .filter(e -> e.getValue() != null)
                 .filter(e -> !e.getValue().whereCanIMove(figures, e.getKey()).isEmpty())
                 .forEach(e -> possibleMoves.put(e.getKey(), e.getValue().whereCanIMove(figures, e.getKey())));
 
-        possibleMoves.values().forEach(e -> {
-            e.forEach(z -> {
-                figures.entrySet().stream()
-                        .filter(f -> f.getValue().getName() == KING)
-                        .filter(f -> f.getKey() == z)
-                        .forEach(f -> check = true);
+        possibleMoves.entrySet().forEach(list -> {
+            list.getValue().forEach(coordinate -> {
+                Figure figure = whatFigureIsThere(coordinate);
+                if (figure != null && figure.getName() == KING){
+                    if(figure.getColor() == WHITE) checkWhite = true;
+                    else checkBlack = true;
+                    kingCoordinates = coordinate;
+                    whoCheck.add(list.getKey());
+                }
+                if (figure != null && (checkBlack || checkWhite)) {
+                    howToUnCheck.addAll(figure.howToUnCheck(figures, list.getKey(), kingCoordinates));
+                }
             });
-                });
-        if(check){
-            changePlayer();
-        }
-
+        });
+        return checkBlack || checkWhite;
     }
 
+    Figure whatFigureIsThere(Coordinate coordinate){  // check what figure is in the coordinates
+        Map<Coordinate, Figure> temp = new HashMap<>();
+        temp = figures.entrySet().stream()
+                .filter(c -> c.getKey().equals(coordinate))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
+        return temp.get(coordinate);
+    }
 
 
 
@@ -143,15 +156,27 @@ public class Board {
         allMoves.add(oldFigures);
     }
 
-    void undoLastMove()
-    {
-        if(allMoves.size()>0) {
-            allMoves.remove(allMoves.size() - 1);
-            figures = allMoves.get(allMoves.size() - 1);
-        }
+    public List<Map<Coordinate, Figure>> getAllMoves() {
+        return allMoves;
     }
 
+    void undoLastMove()
+    {
+        allMoves.remove(allMoves.size() - 1);
+        figures = allMoves.get(allMoves.size() - 1);
+    }
 
+    public boolean isCheckWhite() {
+        return checkWhite;
+    }
+
+    public boolean isCheckBlack() {
+        return checkBlack;
+    }
+
+    public List<Coordinate> getWhoCheck() {
+        return whoCheck;
+    }
 
 }
 

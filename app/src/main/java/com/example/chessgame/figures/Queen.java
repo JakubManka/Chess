@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.lang.StrictMath.abs;
+
 public class Queen extends Figure {
 
     public Queen(FigureColor color){
@@ -75,16 +77,7 @@ public class Queen extends Figure {
                 break;
         }
 
-//        for (Coordinate move : moveList) {
-//            for (Map.Entry<Coordinate, Figure> coordinateFigureEntry : map.entrySet()) {
-//                if (coordinateFigureEntry.getKey() == move) {
-//                    Figure figure = coordinateFigureEntry.getValue();
-//                    if(figure.getColor().equals(getColor())){
-//                        moveList.remove(move);
-//                    }
-//                }
-//            }
-//        }
+
         return moveList.stream()
                 .filter(c -> c.getX() > 0 && c.getX() < 9)
                 .filter(c -> c.getY() > 0 && c.getY() < 9)
@@ -92,5 +85,45 @@ public class Queen extends Figure {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Coordinate> howToUnCheck(Map<Coordinate, Figure> map, Coordinate coordinate, Coordinate king) {
+        List<Coordinate> moveList = new ArrayList<>();
+        int x = king.x - coordinate.x;
+        int y = king.y - coordinate.y;
+
+        if(x > 0 && y > 0) {
+            for(int i=0; i<x; i++) moveList.add(new Coordinate(coordinate.x+i, coordinate.y+i));
+        }
+
+        if(x > 0 && y < 0) {
+            for(int i=0; i<x; i++) moveList.add(new Coordinate(coordinate.x+i, coordinate.y-i));
+        }
+
+        if(x < 0 && y > 0) {
+            for(int i=0; i<abs(x); i++) moveList.add(new Coordinate(coordinate.x-i, coordinate.y+i));
+        }
+
+        if(x < 0 && y < 0) {
+            for(int i=0; i<abs(x); i++) moveList.add(new Coordinate(coordinate.x-i, coordinate.y-i));
+        }
+
+        if(x > 0 && y == 0) {
+            for(int i=0; i<x; i++) moveList.add(new Coordinate(coordinate.x+i, coordinate.y));
+        }
+
+        if(x < 0 && y == 0) {
+            for(int i=0; i<abs(x); i++) moveList.add(new Coordinate(coordinate.x-i, coordinate.y));
+        }
+
+        if(x == 0 && y > 0) {
+            for(int i=0; i<y; i++) moveList.add(new Coordinate(coordinate.x, coordinate.y+1));
+        }
+
+        if(x == 0 && y < 0) {
+            for(int i=0; i<abs(y); i++) moveList.add(new Coordinate(coordinate.x, coordinate.y-1));
+        }
+
+        return moveList;
+    }
 
 }

@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.lang.StrictMath.abs;
+
 public class Rook extends Figure {
 
     public Rook(FigureColor color) {
@@ -51,6 +53,31 @@ public class Rook extends Figure {
                 .filter(c -> map.get(c) == null || !map.get(c).getColor().equals(getColor()))
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public List<Coordinate> howToUnCheck(Map<Coordinate, Figure> map, Coordinate coordinate, Coordinate king) {
+        List<Coordinate> moveList = new ArrayList<>();
+        int x = king.x - coordinate.x;
+        int y = king.y - coordinate.y;
+
+        if(x > 0 && y == 0) {
+            for(int i=0; i<x; i++) moveList.add(new Coordinate(coordinate.x+i, coordinate.y));
+        }
+
+        if(x < 0 && y == 0) {
+            for(int i=0; i<abs(x); i++) moveList.add(new Coordinate(coordinate.x-i, coordinate.y));
+        }
+
+        if(x == 0 && y > 0) {
+            for(int i=0; i<y; i++) moveList.add(new Coordinate(coordinate.x, coordinate.y+1));
+        }
+
+        if(x == 0 && y < 0) {
+            for(int i=0; i<abs(y); i++) moveList.add(new Coordinate(coordinate.x, coordinate.y-1));
+        }
+
+        return moveList;
     }
 
 }

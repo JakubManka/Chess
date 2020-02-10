@@ -24,6 +24,11 @@ public abstract class Figure {
         return Collections.emptyList();
     }
 
+    public List<Coordinate> howToUnCheck(Map<Coordinate, Figure> map, Coordinate coordinate, Coordinate king) {
+        return Collections.emptyList();
+    }
+
+
     public FigureName getName() {
         return name;
     }

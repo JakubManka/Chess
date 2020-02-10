@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button player2Name;
     Button undo;
     Button menu;
+    Button check;
 
     private long time1 = TIME_IN_MILLIS;
     private long time2 = TIME_IN_MILLIS;
@@ -87,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player2Name = findViewById(R.id.player2name);
         undo = findViewById(R.id.undo);
         menu = findViewById(R.id.menu);
+        check = findViewById(R.id.check);
 
         undo.setForeground(getDrawable(R.drawable.undo));
         menu.setForeground(getDrawable(R.drawable.menu));
@@ -118,12 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     Button findButton(Coordinate figureCoordinates) {
-//        for (Entry<Button, Coordinate> buttonCoordinateEntry : buttons.entrySet()) {
-//            if (buttonCoordinateEntry.getValue().equals(figureCoordinates))
-//                return buttonCoordinateEntry.getKey();
-//        }
-//      new RuntimeException("Figure on" + figureCoordinates + " without button !")
-
         return buttons.entrySet().stream()
                 .filter(e -> e.getValue().equals(figureCoordinates))
                 .map(Entry::getKey)

@@ -4,12 +4,13 @@ import com.example.chessgame.Coordinate;
 import com.example.chessgame.FigureColor;
 import com.example.chessgame.FigureName;
 import com.example.chessgame.R;
-import com.example.chessgame.figures.Figure;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static java.lang.StrictMath.abs;
 
 public class Bishop extends Figure {
 
@@ -55,5 +56,29 @@ public class Bishop extends Figure {
                 .filter(c -> map.get(c) == null || !map.get(c).getColor().equals(getColor()))
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public List<Coordinate> howToUnCheck(Map<Coordinate, Figure> map, Coordinate coordinate, Coordinate king) {
+        List<Coordinate> moveList = new ArrayList<>();
+        int x = king.x - coordinate.x;
+        int y = king.y - coordinate.y;
+
+        if(x > 0 && y > 0) {
+            for(int i=0; i<x; i++) moveList.add(new Coordinate(coordinate.x+i, coordinate.y+i));
+        }
+
+        if(x > 0 && y < 0) {
+            for(int i=0; i<x; i++) moveList.add(new Coordinate(coordinate.x+i, coordinate.y-i));
+        }
+
+        if(x < 0 && y > 0) {
+            for(int i=0; i<abs(x); i++) moveList.add(new Coordinate(coordinate.x-i, coordinate.y+i));
+        }
+
+        if(x < 0 && y < 0) {
+            for(int i=0; i<abs(x); i++) moveList.add(new Coordinate(coordinate.x-i, coordinate.y-i));
+        }
+        return moveList;
     }
 }

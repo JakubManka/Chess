@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.lang.StrictMath.abs;
+
 public class Knight extends Figure {
 
     public Knight(FigureColor color) {
@@ -35,6 +37,13 @@ public class Knight extends Figure {
                 .filter(c -> c.getY() > 0 && c.getY() < 9)
                 .filter(c -> map.get(c) == null || !map.get(c).getColor().equals(getColor()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Coordinate> howToUnCheck(Map<Coordinate, Figure> map, Coordinate coordinate, Coordinate king) {
+        List<Coordinate> moveList = new ArrayList<>();
+        moveList.add(new Coordinate(coordinate.x, coordinate.y));
+        return moveList;
     }
 
 }

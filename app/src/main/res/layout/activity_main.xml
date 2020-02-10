@@ -663,11 +663,10 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:id="@+id/undo"
-            android:layout_weight="1"
-            android:layout_marginRight="120dp"
+            android:layout_weight="2"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:foregroundGravity="center"
@@ -675,11 +674,25 @@
         </Button>
 
         <Button
-            android:layout_width="100dp"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:id="@+id/check"
+            android:layout_marginTop="10dp"
+            android:foregroundGravity="center"
+            android:background="#80000000"
+            android:text="@string/check"
+            android:textColor="@color/white"
+            android:textSize="21sp"
+            android:visibility="invisible">
+
+        </Button>
+
+        <Button
+            android:layout_width="200dp"
             android:layout_height="match_parent"
             android:id="@+id/menu"
-            android:layout_weight="1"
-            android:layout_marginLeft="120dp"
+            android:layout_weight="2"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:foregroundGravity="center"

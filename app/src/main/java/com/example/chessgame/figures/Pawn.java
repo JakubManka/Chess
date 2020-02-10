@@ -47,6 +47,13 @@ public class Pawn extends Figure {
         return moves;
 
     }
+
+    @Override
+    public List<Coordinate> howToUnCheck(Map<Coordinate, Figure> map, Coordinate coordinate, Coordinate king) {
+        List<Coordinate> moveList = new ArrayList<>();
+        moveList.add(new Coordinate(coordinate.x, coordinate.y));
+        return moveList;
+    }
 }
 
 
