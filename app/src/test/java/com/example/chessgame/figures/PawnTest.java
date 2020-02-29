@@ -21,14 +21,14 @@ public class PawnTest {
     @Test
     public void whiteAbleToMove() {
         coordinates = new Coordinate(1, 4);
-        List list = whitePawn.whereCanIMove(map, coordinates);
+        List list = whitePawn.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(2, 4)));
         assertEquals(list.size(), 1);
     }
     @Test
     public void blackAbleToMove() {
         coordinates = new Coordinate(8, 8);
-        List list = blackPawn.whereCanIMove(map, coordinates);
+        List list = blackPawn.whereCanIMove(map, coordinates, FigureColor.BLACK);
         assertTrue(list.contains(new Coordinate(7, 8)));
         assertEquals(list.size(), 1);
     }
@@ -37,15 +37,15 @@ public class PawnTest {
     public void notableToMove() {
         coordinates = new Coordinate(1, 1);
         map.put(new Coordinate(2, 1), new Pawn(FigureColor.BLACK));
-        List list = whitePawn.whereCanIMove(map, coordinates);
-        assertTrue("list should be empty", whitePawn.whereCanIMove(map, coordinates).isEmpty());
+        List list = whitePawn.whereCanIMove(map, coordinates, FigureColor.WHITE);
+        assertTrue("list should be empty", list.isEmpty());
     }
 
     @Test
     public void whiteAbleToHit() {
         coordinates = new Coordinate(1, 1);
         map.put(new Coordinate(2, 2), new Pawn(FigureColor.BLACK));
-        List list = whitePawn.whereCanIMove(map, coordinates);
+        List list = whitePawn.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(2, 2)));
         assertTrue(list.contains(new Coordinate(2, 1)));
         assertEquals(list.size(), 2);
@@ -55,7 +55,7 @@ public class PawnTest {
     public void blackAbleToHit() {
         coordinates = new Coordinate(8, 8);
         map.put(new Coordinate(7, 7), new Pawn(FigureColor.WHITE));
-        List list = blackPawn.whereCanIMove(map, coordinates);
+        List list = blackPawn.whereCanIMove(map, coordinates, FigureColor.BLACK);
         assertTrue(list.contains(new Coordinate(7, 7)));
         assertTrue(list.contains(new Coordinate(7, 8)));
         assertEquals(list.size(), 2);

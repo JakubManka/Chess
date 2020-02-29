@@ -20,7 +20,7 @@ public class Bishop extends Figure {
     }
 
     @Override
-    public List<Coordinate> whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate) {
+    public List<Coordinate> whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate,  FigureColor color) {
         List<Coordinate> moveList = new ArrayList<>();
         for(int i=1; i<7; i++) {
             Coordinate c = new Coordinate(coordinate.getX()+i, coordinate.getY()+i);

@@ -1,5 +1,7 @@
 package com.example.chessgame.figures;
 
+import android.graphics.Color;
+
 import com.example.chessgame.Coordinate;
 import com.example.chessgame.FigureColor;
 import com.example.chessgame.FigureName;
@@ -20,7 +22,7 @@ public abstract class Figure {
     }
 
 
-    public List<Coordinate> whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate) {
+    public List<Coordinate> whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate, FigureColor playerColor) {
         return Collections.emptyList();
     }
 

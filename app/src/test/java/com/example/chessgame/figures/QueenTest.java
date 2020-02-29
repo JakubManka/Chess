@@ -27,7 +27,7 @@ public class QueenTest {
         map.put(new Coordinate(4, 2), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(4, 3), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(4, 4), new Pawn(FigureColor.BLACK));
-        assertTrue("list should be empty", queen.whereCanIMove(map, coordinates).isEmpty());
+        assertTrue("list should be empty", queen.whereCanIMove(map, coordinates, FigureColor.WHITE).isEmpty());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class QueenTest {
         map.put(new Coordinate(3, 5), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(1, 3), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(3, 1), new Pawn(FigureColor.BLACK));
-        List list = queen.whereCanIMove(map, coordinates);
+        List list = queen.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(2, 2)));
         assertTrue(list.contains(new Coordinate(2, 3)));
         assertTrue(list.contains(new Coordinate(2, 4)));
@@ -64,7 +64,7 @@ public class QueenTest {
         map.put(new Coordinate(3, 5), new Pawn(FigureColor.WHITE));
         map.put(new Coordinate(1, 3), new Pawn(FigureColor.WHITE));
         map.put(new Coordinate(3, 1), new Pawn(FigureColor.WHITE));
-        List list = queen.whereCanIMove(map, coordinates);
+        List list = queen.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(2, 2)));
         assertTrue(list.contains(new Coordinate(2, 3)));
         assertTrue(list.contains(new Coordinate(2, 4)));

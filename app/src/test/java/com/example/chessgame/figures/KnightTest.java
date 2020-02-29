@@ -23,13 +23,13 @@ public class KnightTest {
         coordinates = new Coordinate(1, 1);
         map.put(new Coordinate(3, 2), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(2, 3), new Pawn(FigureColor.BLACK));
-        assertTrue("list should be empty", knight.whereCanIMove(map, coordinates).isEmpty());
+        assertTrue("list should be empty", knight.whereCanIMove(map, coordinates, FigureColor.WHITE).isEmpty());
     }
 
     @Test
     public void ableToMove() {
         coordinates = new Coordinate(1, 1);
-        List list = knight.whereCanIMove(map, coordinates);
+        List list = knight.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(3, 2)));
         assertTrue(list.contains(new Coordinate(2, 3)));
         assertEquals(list.size(), 2);
@@ -40,7 +40,7 @@ public class KnightTest {
         coordinates = new Coordinate(1, 1);
         map.put(new Coordinate(3, 2), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(2, 3), new Pawn(FigureColor.WHITE));
-        List list = knight.whereCanIMove(map, coordinates);
+        List list = knight.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(2, 3)));
         assertEquals(list.size(), 1);
     }

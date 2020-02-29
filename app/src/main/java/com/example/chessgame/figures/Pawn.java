@@ -1,5 +1,7 @@
 package com.example.chessgame.figures;
 
+import android.graphics.Color;
+
 import com.example.chessgame.Constants;
 import com.example.chessgame.Coordinate;
 import com.example.chessgame.FigureColor;
@@ -20,29 +22,31 @@ public class Pawn extends Figure {
     }
 
     @Override
-    public List whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate) {
+    public List whereCanIMove(Map<Coordinate, Figure> map, Coordinate coordinate, FigureColor playerColor) {
         List<Coordinate> moveList = new ArrayList<>();
         int move = 0;
         if (getColor().equals(FigureColor.BLACK)) {
             move = -1;
         } else if (getColor().equals(FigureColor.WHITE)) move = 1;
+
         Coordinate co = new Coordinate(coordinate.x + move, coordinate.y);
 
         moveList.add(new Coordinate(coordinate.x + move, coordinate.y + 1));
         moveList.add(new Coordinate(coordinate.x + move, coordinate.y - 1));
-
-
         List<Coordinate> moves = new ArrayList<>();
-                moves = moveList.stream()
+        moves = moveList.stream()
                 .filter(c -> map.get(c) != null)
                 .filter(c -> !map.get(c).getColor().equals(getColor()))
                 .collect(Collectors.toList());
 
-        if (map.get(co) == null)  moves.add(co);
-
-        if(coordinate.x == 2)  moves.add(new Coordinate(co.x + 1, co.y));
-
-        if(coordinate.x == 7) moves.add(new Coordinate(co.x - 1, co.y));
+        if (getColor().equals(playerColor)){
+            if (map.get(co) == null) moves.add(co);
+        }else {
+            moves.add(new Coordinate(coordinate.x + move, coordinate.y + 1));
+            moves.add(new Coordinate(coordinate.x + move, coordinate.y - 1));
+        }
+        if ((coordinate.x == 2 || coordinate.x == 7) && map.get(new Coordinate(co.x + move, co.y)) == null)
+            moves.add(new Coordinate(co.x + move, co.y));
 
         return moves;
 
@@ -54,6 +58,7 @@ public class Pawn extends Figure {
         moveList.add(new Coordinate(coordinate.x, coordinate.y));
         return moveList;
     }
+
 }
 
 

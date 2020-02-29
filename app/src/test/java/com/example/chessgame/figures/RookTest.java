@@ -23,7 +23,7 @@ public class RookTest {
         map.put(new Coordinate(3, 2), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(3, 4), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(4, 3), new Pawn(FigureColor.BLACK));
-        assertTrue("list should be empty", rook.whereCanIMove(map, coordinates).isEmpty());
+        assertTrue("list should be empty", rook.whereCanIMove(map, coordinates, FigureColor.WHITE).isEmpty());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class RookTest {
         map.put(new Coordinate(3, 1), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(3, 5), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(5, 3), new Pawn(FigureColor.BLACK));
-        List list = rook.whereCanIMove(map, coordinates);
+        List list = rook.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(2, 3)));
         assertTrue(list.contains(new Coordinate(3, 2)));
         assertTrue(list.contains(new Coordinate(3, 4)));
@@ -47,7 +47,7 @@ public class RookTest {
         map.put(new Coordinate(3, 1), new Pawn(FigureColor.WHITE));
         map.put(new Coordinate(3, 5), new Pawn(FigureColor.WHITE));
         map.put(new Coordinate(5, 3), new Pawn(FigureColor.WHITE));
-        List list = rook.whereCanIMove(map, coordinates);
+        List list = rook.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(2, 3)));
         assertTrue(list.contains(new Coordinate(3, 2)));
         assertTrue(list.contains(new Coordinate(3, 4)));

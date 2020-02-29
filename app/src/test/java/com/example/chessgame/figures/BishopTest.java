@@ -23,7 +23,7 @@ public class BishopTest {
         map.put(new Coordinate(2, 2), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(4, 2), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(2, 4), new Pawn(FigureColor.BLACK));
-        assertTrue("list should be empty", bishop.whereCanIMove(map, coordinates).isEmpty());
+        assertTrue("list should be empty", bishop.whereCanIMove(map, coordinates, FigureColor.WHITE).isEmpty());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class BishopTest {
         map.put(new Coordinate(1, 5), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(5, 1), new Pawn(FigureColor.BLACK));
         map.put(new Coordinate(1, 1), new Pawn(FigureColor.BLACK));
-        List list = bishop.whereCanIMove(map, coordinates);
+        List list = bishop.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(4, 4)));
         assertTrue(list.contains(new Coordinate(4, 2)));
         assertTrue(list.contains(new Coordinate(2, 4)));
@@ -45,7 +45,7 @@ public class BishopTest {
     public void ableToHitPawn() {
         coordinates = new Coordinate(1, 1);
         map.put(new Coordinate(4, 4), new Pawn(FigureColor.WHITE));
-        List list = bishop.whereCanIMove(map, coordinates);
+        List list = bishop.whereCanIMove(map, coordinates, FigureColor.WHITE);
         assertTrue(list.contains(new Coordinate(2, 2)));
         assertTrue(list.contains(new Coordinate(3, 3)));
         assertTrue(list.contains(new Coordinate(4, 4)));
